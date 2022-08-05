@@ -1,13 +1,3 @@
-// This is the Section That will control the ticker
-var tickerBox = document.createElement("p");
-tickerBox.textContent = "Nostrud velit eu sunt labore aute velit dolore ea deserunt quis magna minim proident.";
-
-tickerComplete = document.getElementById("sportsTicker");
-tickerComplete.appendChild(tickerBox); //attaches text to the div
-// End Section that Controls Ticker
-
-// Make API call here
-
 const options = {
 	method: 'GET',
 	headers: {
@@ -20,17 +10,16 @@ function GetTeams() {
 	// Make API call here
 	fetch('https://api-football-v1.p.rapidapi.com/v3/teams?league=39&season=2022', options)
 		.then(response => response.json())
-		//.then(response => console.log(response))
+		// .then(response => console.log("this is the gettam API call",response))
 		.then(response => PopulateOptionSet(response))
 		.catch(err => console.error(err));
-
 
 }
 GetTeams();
 
 function PopulateOptionSet(response) {
 	var TeamOptionSet = document.getElementById("soccerteam");
-
+	console.log(response);
 	response.response.forEach(function (item) {
 		var opt = document.createElement("option");
 		opt.text = item.team.name;
@@ -40,12 +29,16 @@ function PopulateOptionSet(response) {
 
 	});
 }
+
 function GetTeamMembers(TeamOptionSet) {
-fetch('https://api-football-v1.p.rapidapi.com/v3/teams?id=33', options)
-	.then(response => response.json())
-	.then(response => console.log(response))
-	.catch(err => console.error(err));
+
+	fetch('https://api-football-v1.p.rapidapi.com/v3/players?team=' + TeamOptionSet.value + '&season=2022', options)
+		.then(response => response.json())
+		.then(response => ShowTeamPlaysers(response))
+		.catch(err => console.error(err));
+
 }
+
 function ShowTeamPlaysers(response) {
 
 	var PlaserAttributs = ["id", "name", "firstname", "lastname", "age", "birth", "nationality", "height", "weight", "photo"];
@@ -105,13 +98,12 @@ function ShowTeamPlaysers(response) {
 
 }
 
+
 function CreateAndAppendColumnToRow(AttributeValue, Row) {
 	var td = document.createElement("TD");
 	td.innerHTML = AttributeValue;
 	Row.appendChild(td);
 }
-
-
 // function getApi(requestUrl) {
 // 	console.log(requestUrl)
 // 	fetch(requestUrl)
@@ -134,6 +126,23 @@ function CreateAndAppendColumnToRow(AttributeValue, Row) {
 
 
 // This is the section that controls the buttons
+
+$( "#baseballButton" ).click(function() {
+	$( "#outerBaseballContainer" ).toggle();
+  });
+
+  $( "#goalsButton" ).click(function() {
+	$( "#goalsBlock" ).toggle();
+  });
+
+  $( "#basicsButton" ).click(function() {
+	$( "#basicsBlock" ).toggle();
+  });
+
+  $( "#scoringButton" ).click(function() {
+	$( "#scoringBlock" ).toggle();
+  });
+
 
 $( "#footballButton" ).click(function() {
 	$( "#outerFootballContainer" ).toggle();
@@ -192,6 +201,21 @@ $( "#footballButton" ).click(function() {
 // navBar.addEventListener('click', ()=> {
 //     navBar.classList.toggle("is-active")
 // })
+// function toggle() {
+//     const navBar = document.querySelector("#navbar")
+// 	if ($navBar.length > 0) {
+// 		$navBar.forEach(function($el){
+// 			$el.addEventListener('click', function(){
+// 				var target = $el.dataset.target;
+// 				var $target = document.getElementById(target);
+// 			})
+// 		})
+// 	}  
+//     myNav.classList.toggle("is-active")
+
+// }
+
+
 // function toggle() {
 //     const navBar = document.querySelector("#navbar")
 // 	if ($navBar.length > 0) {
